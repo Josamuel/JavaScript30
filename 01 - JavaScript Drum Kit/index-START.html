@@ -58,7 +58,33 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+// need to listen for a key-up event.
 
+
+  function playSounds (e){
+    e.preventDefault();
+    const selectAudio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+    const selectKey = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+    if(!selectAudio) return;
+    // console.log('selectAudio', selectAudio);
+    // console.log('selectKey', selectKey);
+    selectAudio.currentTime = 0;
+    selectAudio.play();
+    selectKey.classList.add('playing');
+  }
+  window.addEventListener('keydown', playSounds);
+
+    const keys = document.querySelectorAll('.key');
+    // console.log('keys are', keys)
+    // function removeTransition(e){
+    //   if(e.propertyName !== 'transform') return
+    //   this.classList.remove('playing');
+    // }
+    // when a key has a transitionend event, we call remove transition.
+    keys.forEach(key => key.addEventListener('transitionend', function(e){
+      if(e.propertyName !== 'transform') return
+      this.classList.remove('playing');
+    }));
 </script>
 
 
