@@ -58,8 +58,6 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-// need to listen for a key-up event.
-
 
   function playSounds (e){
     e.preventDefault();
@@ -72,9 +70,11 @@
     selectAudio.play();
     selectKey.classList.add('playing');
   }
+
   window.addEventListener('keydown', playSounds);
 
-    const keys = document.querySelectorAll('.key');
+  // this is all for adding and removing a css class when the transition is complete
+  const keys = document.querySelectorAll('.key');
     // console.log('keys are', keys)
     // function removeTransition(e){
     //   if(e.propertyName !== 'transform') return
