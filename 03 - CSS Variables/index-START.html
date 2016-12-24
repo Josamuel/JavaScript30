@@ -66,6 +66,10 @@
 
     function handleUpdate () {
       const suffix = this.dataset.size || '';
+      // this.value is the value set on the input bar, from 0 25 with blur, for example.
+      // to create a scalable input bar, you can set the type of the input bar to 'range'
+      //suffix is the type of value, so it's 25 + px, for example.  This tells the CSS how to 
+      //change what it should.
       document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
     }
 
