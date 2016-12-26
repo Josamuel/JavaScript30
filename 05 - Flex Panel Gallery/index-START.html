@@ -16,16 +16,21 @@
     }
     body {
       margin: 0;
-    }
+    } 
     *, *:before, *:after {
       box-sizing: inherit;
     }
 
+/* display: flex puts everything in one flex box,  changes the panels from being vertically aligned to
+horizontally aligned */
     .panels {
       min-height:100vh;
       overflow: hidden;
+      display: flex;
     }
 
+/* flex: 1 tells the panels to fill out all remaining space, basically take over the page */
+/*you can add display: flex to items that are already in flexboxes.  you can put flexboxes in flexboxes*/
     .panel {
       background:#6B0F9C;
       box-shadow:inset 0 0 0 5px rgba(255,255,255,0.1);
@@ -34,13 +39,19 @@
       align-items:center;
       /* Safari transitionend event.propertyName === flex */
       /* Chrome + FF transitionend event.propertyName === flex-grow */
+      /*need this transition or the whole thing breaks.  It because of the flex statement in here*/
       transition:
         font-size 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
-        flex 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
+        flex 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11);
         background 0.2s;
       font-size: 20px;
       background-size:cover;
       background-position:center;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
     }
 
 
@@ -50,10 +61,29 @@
     .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
     .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
 
+    /* these are everything inside of a flex panel.  I.E.  all of the <p> tags */
     .panel > * {
       margin:0;
       width: 100%;
       transition:transform 0.5s;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /*Transform causes CSS fields to move.  The translate -100% will move the first-child of every Panel off-screen going up, while the other will do the opposite to the last-child.  When they are deactivated the items come back*/
+    .panel > *:first-child {
+      transform: translateY(-100%);
+    }
+    .panel.open-active > *:first-child {
+      transform: translateY(0);
+    }
+    .panel > *:last-child {
+      transform: translateY(100%);
+    }
+   .panel.open-active > *:last-child {
+      transform: translateY(0);
     }
 
     .panel p {
@@ -66,8 +96,10 @@
       font-size: 4em;
     }
 
+    /*flex of 5 means that this panel will take 5 times the amount of extra room as the rest of the panels when it is open*/
     .panel.open {
       font-size:40px;
+      flex: 5;
     }
 
     .cta {
@@ -107,6 +139,30 @@
   </div>
 
   <script>
+
+    const panels = document.querySelectorAll('.panel');
+
+    function toggleOpen () {
+        this.classList.toggle('open');
+    }
+
+    // if it has this open-active class, bring it on the page.  Otherwise, keep it off. 
+    function toggleActive(e){
+      console.log('E IS', e.propertyName);
+      if(e.propertyName.includes('flex')){
+        this.classList.toggle('open-active')
+      }
+    }
+
+    panels.forEach(panel =>
+      panel.addEventListener('click', toggleOpen)
+    )
+
+    panels.forEach(panel => 
+      panel.addEventListener('transitionend', toggleActive)
+    )
+
+
 
   </script>
 
