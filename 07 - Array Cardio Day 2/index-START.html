@@ -26,15 +26,63 @@
 
     // Some and Every Checks
     // Array.prototype.some() // is at least one person 19 or older?
+
+    // returns true for at least one person.
+    const overNineteen = (person => {
+      const currentDate = new Date().getFullYear();
+      // if it's true for one person, then we are solid. 
+      if(currentDate - person.year >= 19){
+        return true;
+      }
+
+    })
+
+    const anyAdults = people.some(overNineteen);
+
+    // console.log(anyAdults);
     // Array.prototype.every() // is everyone 19 or older?
+
+    const allAdults = people.every(overNineteen);
+
+    // console.log(allAdults);
 
     // Array.prototype.find()
     // Find is like filter, but instead returns just the one you are looking for
     // find the comment with the ID of 823423
 
+    const findComment = (comment => {
+      if(comment.id === 823423){
+        return comment;
+      }
+    })
+
+    // comments.find already means you're going to be using the comments array.  Don't need to pass that in to findComment.  All you need to do is add the logic to find the specific comment you're looking for,  
+    // console.log(comments.find(findComment));
+
     // Array.prototype.findIndex()
     // Find the comment with this ID
     // delete the comment with the ID of 823423
+
+    // the findIndex returns the index automatically, it doesn't matter what you add as the return to the function, oddly.
+
+    const index = comments.findIndex(comment =>{
+      if(comment.id === 823423){
+        return true;
+      }
+    })
+
+    // comments.splice(index, 1);
+
+    // console.log(comments);
+
+    const newComments = [
+      ...comments.slice(0, index),
+      // the first one slices everything from zero to the index (not inclusive of index)
+      // the second slice from one past the index all the way to the end of the comments array.
+      ...comments.slice(index + 1)
+    ]
+
+    console.log(newComments)
 
   </script>
 </body>
