@@ -5,8 +5,81 @@
   <title>HTML5 Canvas</title>
 </head>
 <body>
+<!-- all you start with is a canvas element you can draw on.  Then we're going to drag and do things to it.  -->
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+// remember the pound sign is a way to select elements.  
+const canvas = document.querySelector('#draw');
+// sets the context of the canvas to 2d.
+// I misspelled canvas intially, which is why this wasn't working.  
+const ctx = canvas.getContext('2d')
+// want to resize canvas to be whatever size the window is at any given time, not 800 x 8000 necessairly.  
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+ctx.strokeStyle = '#BADA55';
+ctx.lineJoin = 'round';
+ctx.lineCap = 'round';
+ctx.lineWidth = 1;
+
+let isDrawing = false; 
+// to draw a line you need a starting x and y and an ending x and y.  
+
+let lastX = 0;
+let lastY = 0;
+let hue = 0;
+let light = 0;
+let direction = true;
+
+
+function draw (e){  
+  if(!isDrawing) return; // will stop the function from running when they're not mousedDown;
+  // console.log(e);
+  ctx.beginPath();
+  ctx.strokeStyle = `hsl(${hue}, ${light}%, 50%)`
+  ctx.moveTo(lastX, lastY);
+  ctx.lineTo(e.offsetX, e.offsetY);
+  // won't see anything until you call stroke
+  ctx.stroke();
+  //destructed array.  
+  [lastX, lastY] = [e.offsetX, e.offsetY]
+  // hue = (Math.random() * 360);
+  light++;
+  hue++;
+  if(hue >= 360){
+    hue = 0;
+  }
+  if(ctx.lineWidth >= 100 || ctx.lineWidth <=1){
+    direction = !direction;
+  }
+  if(direction){
+    ctx.lineWidth++;
+  }else{
+    ctx.lineWidth--;
+  }
+}
+
+canvas.addEventListener('mousedown', (e) => {
+  isDrawing = true;
+  [lastX, lastY] = [e.offsetX, e.offsetY]
+
+})
+
+
+// canvas.addEventListener('mousedown', (e) => {
+//   isDrawing = true;
+//   [lastX, lastY] = [e.offsetX, e.offsetY];
+// });
+
+
+
+canvas.addEventListener('mousemove', draw);
+
+canvas.addEventListener('mouseup', () => isDrawing = false)
+// this is if you leave the canvas window.  If you hold down the mouse and leave the window and then let go and come back it will never have triggered a mouseup event.  
+canvas.addEventListener('mouseout', () => isDrawing = false)
+
 </script>
 
 <style>
