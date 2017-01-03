@@ -19,27 +19,76 @@
 
     // Regular
 
+    console.log('Hi!');
+
     // Interpolated
+
+    console.log('Hello I am a %s string!', 'poopy')
 
     // Styled
 
+    // console.log('%c styled text? what is that?', 'font-size:30px');
+
     // warning!
+
+    console.warn('whoopsie');
 
     // Error :|
 
+    console.error('this is really bad')
+
     // Info
+
+    console.info('birds fly so high')
 
     // Testing
 
+    // displays when the first argument passed is not true.
+
+    const para = document.querySelector('p');
+
+    console.assert(para.classList.contains('big-class'), 'Whoops no big-class found')
+
     // clearing
 
+    // console.clear(); 
+
     // Viewing DOM Elements
+    // this lets you view the dom element
+    console.log(para);
+    // console.dir lets you open up the element to view it's properties.
+    console.dir(para);
 
     // Grouping together
 
+    dogs.forEach(dog => {
+      //
+      // console.groupCollapsed(dog.name);
+      console.group(dog.name)
+      console.log('dog name is', dog.name);
+      console.log('dog age is', dog.age, 'dog name is', dog.name)
+      console.groupEnd(dog.name);
+    })
+
     // counting
+    // will count how many times something is called
+    console.count('Joey')
+    console.count('Joey')
+    console.count('Joey')
+    console.count('Joey')
+    console.count('Arvin')
+    console.count('Arvin')
+
 
     // timing
+
+    console.time('fetching data');
+    fetch('https://api.github.com/users/josamuel')
+    .then(data => data.json())
+    .then(data => {
+      console.timeEnd('fetching data')
+      console.log(data);
+    })
 
   </script>
 </body>
